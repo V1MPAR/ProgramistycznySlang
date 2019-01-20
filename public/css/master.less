@@ -1,0 +1,113 @@
+.nav-main {
+  padding: 50px 0;
+  .logo {
+    h1 {
+      font-family: @source;
+      font-weight: 400;
+      a {
+        color: @red;
+        &:hover {
+          color: darken(@red, 10%);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  .letters {
+    ul {
+      li {
+        a {
+          color: @gray;
+          text-transform: uppercase;
+          font-size: 0.75rem;
+          &:hover {
+            color: darken(@gray, 10%);
+            text-decoration: none;
+          }
+        }
+        .active {
+          color: @red !important;
+          &:hover {
+            color: darken(@red, 10%) !important;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.options-left {
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      padding-bottom: 20px;
+      a {
+        color: @gray;
+        font-family: @source;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        transition-duration: .25s;
+        letter-spacing: 1px;
+        i {
+          padding: 10px;
+          margin-left: 10px;
+          background: @red;
+          color: #fff;
+        }
+        &:hover {
+          color: darken(@gray, 10%);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+.content-section {
+}
+
+.content {
+  h1 {
+    color: @red;
+    padding-bottom: 20px;
+  }
+  p {
+    color: @gray;
+  }
+  .example {
+    margin-top: 20px;
+    border-left: 3px solid @red;
+    padding-left: 20px;
+    font-style: italic;
+  }
+  a {
+    color: @red;
+    transition-duration: .25s;
+    &:hover {
+      text-decoration: none;
+      color: darken(@red, 10%);
+    }
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  form {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+}
+
+.paginate-links {
+  padding-top: 50px;
+}
+
+.active {
+  .page-link {
+    background: @red !important;
+    border-color: @red !important;
+  }
+}

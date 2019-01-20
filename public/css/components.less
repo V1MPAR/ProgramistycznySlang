@@ -1,0 +1,53 @@
+/**
+*   Buttons
+*/
+.btn-red {
+  background: @red;
+  color: #fff;
+  &:hover {
+    background: darken(@red, 10%);
+    color: #fff;
+  }
+}
+
+/**
+*   Inputs
+*/
+.input-group {
+  input, textarea {
+    resize: none;
+    &:focus {
+      border: 1px solid @red;
+    }
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+  }
+  .input-group-prepend {
+    .input-group-text {
+      background: @red !important;
+      i {
+        color: #fff !important;
+      }
+    }
+  }
+}
+
+/**
+*   Texts
+*/
+
+/**
+*   Other
+*/
+.p-0 {
+  padding: 0 !important;
+}
+.m-0 {
+  margin: 0 !important;
+}
+.badge-red {
+  background: @red;
+  color: #fff;
+  margin-right: 5px;
+}

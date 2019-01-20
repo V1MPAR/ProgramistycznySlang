@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'IndexController@index');
+
+Route::get('/slang/voteup/{id}', 'SlangsController@voteUp');
+Route::get('/slang/votedown/{id}', 'SlangsController@voteDown');
+Route::get('/slang/random', 'SlangsController@random');
+Route::get('/slang/create', 'SlangsController@create')->middleware('auth');
+Route::post('/slang/create', 'SlangsController@store')->middleware('auth');
+Route::get('/slang/{slang}', 'SlangsController@slang');
+Route::get('/letter/{letter}', 'SlangsController@letter');
+
+Auth::routes();
+
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/home', 'HomeController@index')->name('home');

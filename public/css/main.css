@@ -1,0 +1,163 @@
+/**
+*   Media Queries
+*/
+/**
+*   Fonts
+*/
+/**
+*   Colors
+*/
+/**
+*   Buttons
+*/
+.btn-red {
+  background: #f44336;
+  color: #fff;
+}
+.btn-red:hover {
+  background: #ea1c0d;
+  color: #fff;
+}
+/**
+*   Inputs
+*/
+.input-group input,
+.input-group textarea {
+  resize: none;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.input-group input:focus,
+.input-group textarea:focus {
+  border: 1px solid #f44336;
+}
+.input-group .input-group-prepend .input-group-text {
+  background: #f44336 !important;
+}
+.input-group .input-group-prepend .input-group-text i {
+  color: #fff !important;
+}
+/**
+*   Texts
+*/
+/**
+*   Other
+*/
+.p-0 {
+  padding: 0 !important;
+}
+.m-0 {
+  margin: 0 !important;
+}
+.badge-red {
+  background: #f44336;
+  color: #fff;
+  margin-right: 5px;
+}
+.nav-main {
+  padding: 50px 0;
+}
+.nav-main .logo h1 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+}
+.nav-main .logo h1 a {
+  color: #f44336;
+}
+.nav-main .logo h1 a:hover {
+  color: #ea1c0d;
+  text-decoration: none;
+}
+.nav-main .letters ul li a {
+  color: #333333;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+.nav-main .letters ul li a:hover {
+  color: #1a1a1a;
+  text-decoration: none;
+}
+.nav-main .letters ul li .active {
+  color: #f44336 !important;
+}
+.nav-main .letters ul li .active:hover {
+  color: #ea1c0d !important;
+  text-decoration: none;
+}
+.options-left ul {
+  list-style: none;
+  padding: 0;
+}
+.options-left ul li {
+  padding-bottom: 20px;
+}
+.options-left ul li a {
+  color: #333333;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  transition-duration: .25s;
+  letter-spacing: 1px;
+}
+.options-left ul li a i {
+  padding: 10px;
+  margin-left: 10px;
+  background: #f44336;
+  color: #fff;
+}
+.options-left ul li a:hover {
+  color: #1a1a1a;
+  text-decoration: none;
+}
+.content h1 {
+  color: #f44336;
+  padding-bottom: 20px;
+}
+.content p {
+  color: #333333;
+}
+.content .example {
+  margin-top: 20px;
+  border-left: 3px solid #f44336;
+  padding-left: 20px;
+  font-style: italic;
+}
+.content a {
+  color: #f44336;
+  transition-duration: .25s;
+}
+.content a:hover {
+  text-decoration: none;
+  color: #ea1c0d;
+}
+.content ul {
+  list-style: none;
+  padding: 0;
+}
+.content form {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+.paginate-links {
+  padding-top: 50px;
+}
+.active .page-link {
+  background: #f44336 !important;
+  border-color: #f44336 !important;
+}
+.vote-up {
+  color: green;
+}
+.vote-up:hover {
+  text-decoration: none;
+  color: #004d00;
+}
+.vote-down {
+  color: red;
+}
+.vote-down:hover {
+  text-decoration: none;
+  color: #cc0000;
+}

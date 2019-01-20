@@ -1,0 +1,134 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Auth;
+use Session;
+use App\Tag;
+use App\Vote;
+use App\Slang;
+use Illuminate\Http\Request;
+
+class SlangsController extends Controller
+{
+    public function index()
+    {
+        return view('slangs.index');
+    }
+
+    public function slang($link)
+    {
+        $slang = Slang::where('link', $link )->get();
+        if ( $slang->count() > 0 ) {
+            return view('slangs.slang')->with('slang', $slang[0]);
+        } else {
+            abort(404, 'Slang o takim linku nie istnieje.');
+        }
+    }
+
+    public function letter($letter)
+    {
+        $slangsGet = Slang::where('slang', 'like', $letter . '%')->get();
+        $slangs = Slang::where('slang', 'like', $letter . '%')->orderBy('slang', 'ASC')->paginate(10);
+        if ( $slangsGet->count() > 0 ) {
+            return view('slangs.letter.index')->with('slangs', $slangs)->with('letter', $letter);
+        } else {
+            return view('slangs.letter.index')->with('exist', 0)->with('letter', $letter);
+        }
+    }
+
+    public function random()
+    {
+        $slang = Slang::inRandomOrder()->get();
+        return redirect('/slang/' . $slang[0] -> link)->with('slang', $slang[0]);
+    }
+
+    public function voteUp($id)
+    {
+        $slang = Slang::findOrFail($id);
+        $voteUp = Vote::where('user_id', Auth::id())->where('slang_id', $id)->where('vote', 1)->get();
+        $voteDown = Vote::where('user_id', Auth::id())->where('slang_id', $id)->where('vote', 0)->get();
+
+        if ( $voteUp->count() == 0 ) {
+            $vote = new Vote;
+            $vote -> user_id = Auth::id();
+            $vote -> slang_id = $id;
+            $vote -> vote = 1;
+            $vote -> save();
+
+            if ( $voteDown->count() != 0 ) {
+                $voteDel = Vote::findOrFail($voteDown[0]->id);
+                $voteDel->delete();
+            }
+
+            Session::flash('success', 'Pomyślnie oddałeś swój pozytywny głos dla tego slangu!');
+            return redirect('/slang/' . $slang -> link);
+        } else {
+            Session::flash('error', 'Oddałeś już swój pozytywny głos dla tego slangu!');
+            return redirect('/slang/' . $slang -> link);
+        }
+
+    }
+
+    public function voteDown($id)
+    {
+        $slang = Slang::findOrFail($id);
+        $voteUp = Vote::where('user_id', Auth::id())->where('slang_id', $id)->where('vote', 1)->get();
+        $voteDown = Vote::where('user_id', Auth::id())->where('slang_id', $id)->where('vote', 0)->get();
+
+        if ( $voteDown->count() == 0 ) {
+            $vote = new Vote;
+            $vote -> user_id = Auth::id();
+            $vote -> slang_id = $id;
+            $vote -> vote = 0;
+            $vote -> save();
+
+            if ( $voteUp->count() != 0 ) {
+                $voteDel = Vote::findOrFail($voteUp[0]->id);
+                $voteDel->delete();
+            }
+
+            Session::flash('success', 'Pomyślnie oddałeś swój negatywny głos dla tego slangu!');
+            return redirect('/slang/' . $slang -> link);
+        } else {
+            Session::flash('error', 'Oddałeś już swój negatywny głos dla tego slangu!');
+            return redirect('/slang/' . $slang -> link);
+        }
+
+    }
+
+    public function create()
+    {
+        return view('slangs.create.index');
+    }
+
+    public function store(Request $request)
+    {
+        dd($request->input('tags'));
+        $validatedData = $request->validate([
+          'slang' => 'required|min:2|max:128',
+          'description' => 'required|min:16|max:512',
+          'example' => 'max:512',
+          'tags' => 'required'
+        ]);
+
+        $slang = new Slang;
+        $slang -> user_id = Auth::id();
+        $slang -> slang = $request -> slang;
+        $slang -> description = $request -> description;
+        if ( $slang -> example != null ) {
+            $slang -> example = $request -> example;
+        }
+        $slang -> link = str_slug($slang -> slang, '-');
+        $slang->save();
+
+        foreach ( $request->input('tags') as $tagForm ) {
+            $tag = new Tag;
+            $tag -> slang_id = $slang -> id;
+            $tag -> tag = $tagForm;
+            $tag->save();
+        }
+
+        return redirect()->back();
+    }
+}
