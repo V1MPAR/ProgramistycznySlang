@@ -20,6 +20,7 @@ Route::get('/slang/create', 'SlangsController@create')->middleware('auth');
 Route::post('/slang/create', 'SlangsController@store')->middleware('auth');
 Route::get('/slang/{slang}', 'SlangsController@slang');
 Route::get('/letter/{letter}', 'SlangsController@letter');
+Route::get('/tag/{tag}', 'SlangsController@tag');
 
 Auth::routes();
 

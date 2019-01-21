@@ -37,6 +37,22 @@ class SlangsController extends Controller
         }
     }
 
+    public function tag($tag)
+    {
+        $tags = Tag::where('link', $tag)->get();
+        $slangs = [];
+        foreach ( $tags as $tag ) {
+            $tagName = $tag -> tag;
+            array_push($slangs, $tag -> slang_id);
+        }
+        $slangsDb = Slang::whereIn('id', $slangs)->orderBy('slang', 'ASC')->paginate(10);
+        if ( $tags->count() > 0 ) {
+            return view('slangs.tag.index')->with('slangs', $slangsDb)->with('tag', $tagName);
+        } else {
+            return abort(404, 'Podany tag nie istnieje.');
+        }
+    }
+
     public function random()
     {
         $slang = Slang::inRandomOrder()->get();
@@ -104,9 +120,8 @@ class SlangsController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->input('tags'));
         $validatedData = $request->validate([
-          'slang' => 'required|min:2|max:128',
+          'slang' => 'required|min:2|max:128|unique:slangs',
           'description' => 'required|min:16|max:512',
           'example' => 'max:512',
           'tags' => 'required'
@@ -116,16 +131,16 @@ class SlangsController extends Controller
         $slang -> user_id = Auth::id();
         $slang -> slang = $request -> slang;
         $slang -> description = $request -> description;
-        if ( $slang -> example != null ) {
-            $slang -> example = $request -> example;
-        }
+        $slang -> example = $request -> example;
         $slang -> link = str_slug($slang -> slang, '-');
         $slang->save();
 
-        foreach ( $request->input('tags') as $tagForm ) {
+        $tags = explode(',', $request->tags);
+        foreach ( $tags as $tagForm ) {
             $tag = new Tag;
             $tag -> slang_id = $slang -> id;
             $tag -> tag = $tagForm;
+            $tag -> link = str_slug($tagForm, '-');
             $tag->save();
         }
 

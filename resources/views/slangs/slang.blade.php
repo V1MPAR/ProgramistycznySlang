@@ -17,10 +17,20 @@
           <h1 class="col-12 text-center">{{ $slang -> slang }}</h1>
           <p class="col-12 text-center">{{ $slang -> description }}</p>
           @if ( $slang -> example !== null )
-            <div class="col-12 text-center">
-                <span class="example">{!! $slang -> example !!}</span>
+            <div class="col-10 offset-1 col-md-6 offset-md-3">
+                <p class="example">{!! nl2br(htmlentities($slang -> example)) !!}</p>
             </div>
           @endif
+          <div class="col-12 slang-info">
+              <p>Autor: <b>{{ App\User::getName($slang -> user_id) }}</b></p>
+              <p>Dodano: <b>{{ date('d F Y H:i', strtotime($slang -> created_at)) }}</b></p>
+          </div>
+          <div class="col-12 tags">
+              @php ( $tags = App\Tag::getTags($slang -> id) )
+              @foreach ( $tags as $tag )
+                  <a href="{{ URL::to('/tag/' . $tag -> link) }}"><span class="badge badge-red">{{ $tag -> tag }}</span></a>
+              @endforeach
+          </div>
       </div>
   </div>
 @stop

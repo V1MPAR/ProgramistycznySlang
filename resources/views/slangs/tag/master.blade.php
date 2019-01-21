@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <meta name="author" content="Mateusz Domurad" />
 
-    <title>{{ strtoupper($letter) }} &mdash; Programistyczny Slang</title>
+    <title>Tag: {{ $tag }} &mdash; Programistyczny Slang</title>
 
     <!-- Bootstrap & Font Awesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />

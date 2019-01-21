@@ -17,6 +17,7 @@ class CreateTagsTable extends Migration
             $table->increments('id');
             $table->integer('slang_id')->unsigned();
             $table->string('tag');
+            $table->string('link');
             $table->timestamps();
 
             $table->foreign('slang_id')->references('id')->on('slangs')->onDelete('cascade');

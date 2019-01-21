@@ -53,7 +53,7 @@
     this.inputSize = Math.max(1, this.placeholderText.length);
 
     this.$container = $('<div class="input-group"></div>');
-    this.$input = $('<div class="col-12"><input type="text" class="form-control" style="margin-top: 10px;" placeholder="Tagi"/></div>').appendTo(this.$container)
+    this.$input = $('<div class="col-12"><input type="text" class="form-control" style="margin-top: 10px;" placeholder="Tagi (zatwierdzaj pojedynczy tag - enterem)"/></div>').appendTo(this.$container)
 
     this.$element.before(this.$container);
 
@@ -153,7 +153,7 @@
 
       // add <option /> if item represents a value not present in one of the <select />'s options
       if (self.isSelect && !optionExists) {
-        var $option = $('<option selected="selected">' + htmlEncode(itemText) + '</option>');
+        var $option = $('<option>' + htmlEncode(itemText) + '</option>');
         $option.data('item', item);
         $option.attr('value', itemValue);
         self.$element.append($option);

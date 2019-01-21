@@ -42,16 +42,15 @@
 
               <div class="bootstrap-tagsinput col-12 mb-3">
                   @if ( count($errors) > 0 )
-                    @foreach ( $errors->get('example') as $error )
+                    @foreach ( $errors->get('tags') as $error )
                       <p class="text-danger col-12">{{ $error }}</p>
                     @endforeach
                   @endif
-                  <select multiple="multiple" data-role="tagsinput" name="tags">
-                  </select>
+	                <input type="text" data-role="tagsinput" name="tags" value="">
               </div>
 
               <div class="input-group col-12" style="margin: 25px 0;">
-                  {{ Form::submit('Dodaj slang', ['class' => 'btn btn-red']) }}
+                  {{ Form::submit('Dodaj slang', ['class' => 'btn btn-red', 'id' => 'addSlang']) }}
               </div>
           {!! Form::close() !!}
       </div>
