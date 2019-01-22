@@ -8,6 +8,8 @@ use App\Tag;
 use App\Vote;
 use App\Slang;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class SlangsController extends Controller
 {
@@ -18,7 +20,12 @@ class SlangsController extends Controller
 
     public function slang($link)
     {
-        $slang = Slang::where('link', $link )->get();
+        if ( ! auth()->user()->hasRole(['verified', 'admin']) ) {
+            $slang = Slang::where('link', $link)->where('accepted', 1)->get();
+        } else {
+            $slang = Slang::where('link', $link)->get();
+        }
+
         if ( $slang->count() > 0 ) {
             return view('slangs.slang')->with('slang', $slang[0]);
         } else {
@@ -28,8 +35,8 @@ class SlangsController extends Controller
 
     public function letter($letter)
     {
-        $slangsGet = Slang::where('slang', 'like', $letter . '%')->get();
-        $slangs = Slang::where('slang', 'like', $letter . '%')->orderBy('slang', 'ASC')->paginate(10);
+        $slangsGet = Slang::where('slang', 'like', $letter . '%')->where('accepted', 1)->get();
+        $slangs = Slang::where('slang', 'like', $letter . '%')->where('accepted', 1)->orderBy('slang', 'ASC')->paginate(10);
         if ( $slangsGet->count() > 0 ) {
             return view('slangs.letter.index')->with('slangs', $slangs)->with('letter', $letter);
         } else {
@@ -45,7 +52,7 @@ class SlangsController extends Controller
             $tagName = $tag -> tag;
             array_push($slangs, $tag -> slang_id);
         }
-        $slangsDb = Slang::whereIn('id', $slangs)->orderBy('slang', 'ASC')->paginate(10);
+        $slangsDb = Slang::whereIn('id', $slangs)->where('accepted', 1)->orderBy('slang', 'ASC')->paginate(10);
         if ( $tags->count() > 0 ) {
             return view('slangs.tag.index')->with('slangs', $slangsDb)->with('tag', $tagName);
         } else {
@@ -55,7 +62,7 @@ class SlangsController extends Controller
 
     public function random()
     {
-        $slang = Slang::inRandomOrder()->get();
+        $slang = Slang::where('accepted', 1)->inRandomOrder()->get();
         return redirect('/slang/' . $slang[0] -> link)->with('slang', $slang[0]);
     }
 
@@ -113,6 +120,39 @@ class SlangsController extends Controller
 
     }
 
+    public function acceptSlangs()
+    {
+        if ( auth()->user()->hasRole('admin') ) {
+            $slangs = Slang::where('accepted', 0)->paginate(10);
+            return view('slangs.accept.index')->with('slangs', $slangs);
+        } else {
+            return abort(403);
+        }
+    }
+
+    public function accept($id)
+    {
+        if ( auth()->user()->hasRole('admin') ) {
+            $slang = Slang::findOrFail($id);
+            $slang -> accepted = 1;
+            $slang -> save();
+            return redirect('/slang/acceptslangs')->with('success', 'Slang został pomyślnie zaakceptowany!');
+        } else {
+            return abort(403);
+        }
+    }
+
+    public function decline($id)
+    {
+        if ( auth()->user()->hasRole('admin') ) {
+            $slang = Slang::findOrFail($id);
+            $slang->delete();
+            return redirect('/slang/acceptslangs')->with('success', 'Slang został pomyślnie odrzucony!');
+        } else {
+            return abort(403);
+        }
+    }
+
     public function create()
     {
         return view('slangs.create.index');
@@ -133,6 +173,13 @@ class SlangsController extends Controller
         $slang -> description = $request -> description;
         $slang -> example = $request -> example;
         $slang -> link = str_slug($slang -> slang, '-');
+
+        if ( auth()->user()->hasRole(['accepted', 'admin']) ) {
+            $slang -> accepted = 1;
+        } else {
+            $slang -> accepted = 0;
+        }
+
         $slang->save();
 
         $tags = explode(',', $request->tags);
@@ -144,6 +191,10 @@ class SlangsController extends Controller
             $tag->save();
         }
 
-        return redirect()->back();
+        if ( $slang -> accepted == 1 ) {
+            return redirect('/slang/' . $slang -> link);
+        } else {
+            return redirect('/')->with('success', 'Twój slang został przesłany do zaakceptowania przez naszych administratorów. O wyniku akceptacji poinformujemy Cię mailowo.');
+        }
     }
 }

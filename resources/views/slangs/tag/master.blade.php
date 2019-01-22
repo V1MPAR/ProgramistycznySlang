@@ -74,6 +74,15 @@
                                     </a>
                                   </li>
                                 @endif
+                                @hasrole('admin')
+                                  <li class="list-item">
+                                    <a href="{{ URL::to('/slang/acceptslangs') }}">
+                                      <span class="badge badge-red">{{ App\Slang::getSlangsToAcceptCount() }}</span>
+                                      Zaakceptuj slangi
+                                      <i class="fas fa-check"></i>
+                                    </a>
+                                  </li>
+                                @endhasrole
                                   <li class="list-item">
                                       <a href="{{ URL::to('/slang/create') }}">
                                           Dodaj slang

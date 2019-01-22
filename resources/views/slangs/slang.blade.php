@@ -8,9 +8,15 @@
               @elseif ( session()->has('success') )
                   <li class="list-inline-item text-success">{{ session()->get('success') }}</li>
               @endif
-              <li class="list-inline-item" id="vote-count">{{ App\Vote::getVotesCount($slang -> id) }}</li>
-              <li class="list-inline-item text-success"><a href="{{ URL::to('/slang/voteup/' . $slang -> id) }}"><i class="fas fa-chevron-up vote-up"></i></a></li>
-              <li class="list-inline-item text-danger"><a href="{{ URL::to('/slang/votedown/' . $slang -> id) }}"><i class="fas fa-chevron-down vote-down"></i></a></li>
+              @if ( App\Slang::checkAccepted($slang -> id) == false && auth()->user()->hasRole('admin') )
+                  <li class="list-inline-item text-success"><a href="{{ URL::to('/slang/accept/' . $slang -> id) }}"><i class="fas fa-check vote-up"></i></a></li>
+                  <li class="list-inline-item text-danger"><a href="{{ URL::to('/slang/decline/' . $slang -> id) }}"><i class="fas fa-times vote-down"></i></a></li>
+              @endif
+              @if ( App\Slang::checkAccepted($slang -> id) == true )
+                  <li class="list-inline-item" id="vote-count">{{ App\Vote::getVotesCount($slang -> id) }}</li>
+                  <li class="list-inline-item text-success"><a href="{{ URL::to('/slang/voteup/' . $slang -> id) }}"><i class="fas fa-chevron-up vote-up"></i></a></li>
+                  <li class="list-inline-item text-danger"><a href="{{ URL::to('/slang/votedown/' . $slang -> id) }}"><i class="fas fa-chevron-down vote-down"></i></a></li>
+              @endif
           </ul>
       </div>
       <div class="content">

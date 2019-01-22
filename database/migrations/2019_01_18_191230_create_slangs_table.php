@@ -20,6 +20,7 @@ class CreateSlangsTable extends Migration
             $table->text('description');
             $table->text('example')->nullable();
             $table->string('link');
+            $table->integer('accepted');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
