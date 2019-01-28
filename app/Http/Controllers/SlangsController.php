@@ -9,21 +9,27 @@ use App\Vote;
 use App\Slang;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Permission;
 
 class SlangsController extends Controller
 {
+    use HasRoles;
+
     public function index()
     {
-        return view('slangs.index');
+        $count = Slang::count();
+        $slangs = Slang::orderBy('slang', 'ASC')->paginate(10);
+        return view('slangs.index')->with('slangs', $slangs)->with('count', $count);
     }
 
     public function slang($link)
     {
-        if ( ! auth()->user()->hasRole(['verified', 'admin']) ) {
-            $slang = Slang::where('link', $link)->where('accepted', 1)->get();
-        } else {
-            $slang = Slang::where('link', $link)->get();
+        $slang = Slang::where('link', $link)->get();
+        if ( auth()->user() != null ) {
+            if ( ! auth()->user()->hasRole(['verified', 'admin']) ) {
+                $slang = Slang::where('link', $link)->where('accepted', 1)->get();
+            }
         }
 
         if ( $slang->count() > 0 ) {
@@ -69,13 +75,13 @@ class SlangsController extends Controller
     public function voteUp($id)
     {
         $slang = Slang::findOrFail($id);
-        $voteUp = Vote::where('user_id', Auth::id())->where('slang_id', $id)->where('vote', 1)->get();
-        $voteDown = Vote::where('user_id', Auth::id())->where('slang_id', $id)->where('vote', 0)->get();
+        $voteUp = Vote::where('ip', request()->ip())->where('slang_id', $id)->where('vote', 1)->get();
+        $voteDown = Vote::where('ip', request()->ip())->where('slang_id', $id)->where('vote', 0)->get();
 
         if ( $voteUp->count() == 0 ) {
             $vote = new Vote;
-            $vote -> user_id = Auth::id();
             $vote -> slang_id = $id;
+            $vote -> ip = request()->ip();
             $vote -> vote = 1;
             $vote -> save();
 
@@ -96,13 +102,13 @@ class SlangsController extends Controller
     public function voteDown($id)
     {
         $slang = Slang::findOrFail($id);
-        $voteUp = Vote::where('user_id', Auth::id())->where('slang_id', $id)->where('vote', 1)->get();
-        $voteDown = Vote::where('user_id', Auth::id())->where('slang_id', $id)->where('vote', 0)->get();
+        $voteUp = Vote::where('ip', request()->ip())->where('slang_id', $id)->where('vote', 1)->get();
+        $voteDown = Vote::where('ip', request()->ip())->where('slang_id', $id)->where('vote', 0)->get();
 
         if ( $voteDown->count() == 0 ) {
             $vote = new Vote;
-            $vote -> user_id = Auth::id();
             $vote -> slang_id = $id;
+            $vote -> ip = request()->ip();
             $vote -> vote = 0;
             $vote -> save();
 
@@ -174,7 +180,7 @@ class SlangsController extends Controller
         $slang -> example = $request -> example;
         $slang -> link = str_slug($slang -> slang, '-');
 
-        if ( auth()->user()->hasRole(['accepted', 'admin']) ) {
+        if ( auth()->user()->hasRole(['verified', 'admin']) ) {
             $slang -> accepted = 1;
         } else {
             $slang -> accepted = 0;
@@ -195,6 +201,51 @@ class SlangsController extends Controller
             return redirect('/slang/' . $slang -> link);
         } else {
             return redirect('/')->with('success', 'Twój slang został przesłany do zaakceptowania przez naszych administratorów. O wyniku akceptacji poinformujemy Cię mailowo.');
+        }
+    }
+
+    public function edit($link)
+    {
+        $slang = Slang::where('link', $link)->get();
+        if ( $slang[0] -> user_id == auth()->id() || auth()->user()->hasRole('admin') ) {
+            return view('slangs.edit.index')->with('slang', $slang[0]);
+        } else {
+            return abort(403);
+        }
+    }
+
+    public function update($id, Request $request)
+    {
+        $slangDb = Slang::find($id)->get();
+        if ( $slangDb[0] -> user_id == auth()->id() || auth()->user()->hasRole('admin') ) {
+
+            $validatedData = $request->validate([
+              'slang' => 'required|min:2|max:128|unique:slangs,slang,' . $id,
+              'description' => 'required|min:16|max:512',
+              'example' => 'max:512'
+            ]);
+
+            $slang = Slang::find($slangDb[0] -> id);
+            $slang -> slang = $request -> slang;
+            $slang -> description = $request -> description;
+            $slang -> example = $request -> example;
+            $slang -> link = str_slug($slang -> slang, '-');
+
+            $slang->save();
+
+            $tags = explode(',', $request->tags);
+            foreach ( $tags as $tagForm ) {
+                $tag = new Tag;
+                $tag -> slang_id = $slang -> id;
+                $tag -> tag = $tagForm;
+                $tag -> link = str_slug($tagForm, '-');
+                $tag->save();
+            }
+
+            return redirect('/slang/' . $slang -> link);
+
+        } else {
+            return abort(403);
         }
     }
 }

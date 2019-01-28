@@ -13,14 +13,18 @@
 
 Route::get('/', 'IndexController@index');
 
-Route::get('/slang/voteup/{id}', 'SlangsController@voteUp')->middleware('auth');
-Route::get('/slang/votedown/{id}', 'SlangsController@voteDown')->middleware('auth');
+Route::get('/slangs', 'SlangsController@index');
+Route::get('/rankings', 'RankingsController@index');
+Route::get('/slang/voteup/{id}', 'SlangsController@voteUp');
+Route::get('/slang/votedown/{id}', 'SlangsController@voteDown');
 Route::get('/slang/random', 'SlangsController@random');
 Route::get('/slang/acceptslangs', 'SlangsController@acceptSlangs')->middleware('auth');
 Route::get('/slang/accept/{id}', 'SlangsController@accept')->middleware('auth');
 Route::get('/slang/decline/{id}', 'SlangsController@decline')->middleware('auth');
 Route::get('/slang/create', 'SlangsController@create')->middleware('auth');
 Route::post('/slang/create', 'SlangsController@store')->middleware('auth');
+Route::get('/slang/{slang}/edit', 'SlangsController@edit');
+Route::patch('/slang/{slang}/edit', 'SlangsController@update');
 Route::get('/slang/{slang}', 'SlangsController@slang');
 Route::get('/letter/{letter}', 'SlangsController@letter');
 Route::get('/tag/{tag}', 'SlangsController@tag');

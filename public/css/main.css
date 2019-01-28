@@ -115,6 +115,22 @@
   color: #f44336;
   padding-bottom: 20px;
 }
+.content .icon {
+  color: #f44336;
+  font-size: 40px;
+  padding-bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+.content h3 {
+  color: #333333;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding-bottom: 20px;
+  font-size: 16px;
+  text-align: center;
+}
 .content p {
   color: #333333;
 }
@@ -146,12 +162,33 @@
 .content .tags {
   margin-top: 30px;
 }
+.content .users li {
+  margin-bottom: 5px;
+}
 .paginate-links {
   padding-top: 50px;
 }
 .active .page-link {
   background: #f44336 !important;
   border-color: #f44336 !important;
+}
+.first {
+  color: #FFD700;
+  font-size: 1rem;
+  text-align: left;
+  padding-right: 10px;
+}
+.second {
+  color: #C0C0C0;
+  font-size: 1rem;
+  text-align: left;
+  padding-right: 10px;
+}
+.third {
+  color: #cd7f32;
+  font-size: 1rem;
+  text-align: left;
+  padding-right: 10px;
 }
 .vote-up {
   color: green;
@@ -166,4 +203,11 @@
 .vote-down:hover {
   text-decoration: none;
   color: #cc0000;
+}
+.black-link {
+  color: #333333;
+}
+.black-link:hover {
+  text-decoration: none;
+  color: #1a1a1a;
 }
