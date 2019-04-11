@@ -68,8 +68,12 @@ class SlangsController extends Controller
 
     public function random()
     {
-        $slang = Slang::where('accepted', 1)->inRandomOrder()->get();
-        return redirect('/slang/' . $slang[0] -> link)->with('slang', $slang[0]);
+        if ( Slang::count() != 0 ) {
+            $slang = Slang::where('accepted', 1)->inRandomOrder()->get();
+            return redirect('/slang/' . $slang[0] -> link)->with('slang', $slang[0]);
+        } else {
+            return redirect('/slangs');
+        }
     }
 
     public function voteUp($id)

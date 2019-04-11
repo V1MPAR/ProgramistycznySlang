@@ -1,77 +1,66 @@
-@extends('layouts.app')
-
+@extends('auth.masterRegister')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+  <div class="content-section col-12">
+      <div class="content">
+          <h1 class="col-12 text-center">Rejestracja</h1>
+          {!! Form::open(['url' => route('register'), 'class' => 'col-10 offset-1 col-lg-6 offset-lg-3']) !!}
+              <div class="input-group col-12 mb-3">
+                  @if ( count($errors) > 0 )
+                    @foreach ( $errors->get('name') as $error )
+                      <p class="text-danger col-12">{{ $error }}</p>
+                    @endforeach
+                  @endif
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  </div>
+                  {!! Form::text('name', old('name'), ['class' => 'col-12 form-control', 'placeholder' => 'Nazwa użytkownika']) !!}
+              </div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+              <div class="input-group col-12 mb-3">
+                  @if ( count($errors) > 0 )
+                    @foreach ( $errors->get('email') as $error )
+                      <p class="text-danger col-12">{{ $error }}</p>
+                    @endforeach
+                  @endif
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                  </div>
+                  {!! Form::email('email', old('email'), ['class' => 'col-12 form-control', 'placeholder' => 'E-mail']) !!}
+              </div>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+              <div class="input-group col-12 mb-3">
+                  @if ( count($errors) > 0 )
+                    @foreach ( $errors->get('password') as $error )
+                      <p class="text-danger col-12">{{ $error }}</p>
+                    @endforeach
+                  @endif
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-star-of-life"></i></span>
+                  </div>
+                  {!! Form::password('password', ['class' => 'col-12 form-control', 'placeholder' => 'Hasło']) !!}
+              </div>
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+              <div class="input-group col-12 mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-star-of-life"></i></span>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+                {!! Form::password('password_confirmation', ['class' => 'col-12 form-control', 'placeholder' => 'Powtórz hasło']) !!}
+              </div>
+
+              <div class="row h-100" style="padding: 20px;">
+
+                  <div class="input-group col-6 my-auto">
+                    {{ Form::submit('Zarejestruj się', ['class' => 'btn btn-red']) }}
+                  </div>
+
+                  <div class="col-6 text-right my-auto">
+                      <a class="btn btn-link" href="{{ URL::to('/login') }}">
+                        Masz już konto?
+                      </a>
+                  </div>
+
+              </div>
+          {!! Form::close() !!}
+      </div>
+  </div>
+@stop

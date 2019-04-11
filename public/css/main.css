@@ -11,7 +11,7 @@
 *   Buttons
 */
 .btn-red {
-  background: #f44336;
+  background: #F44336;
   color: #fff;
 }
 .btn-red:hover {
@@ -30,10 +30,10 @@
 }
 .input-group input:focus,
 .input-group textarea:focus {
-  border: 1px solid #f44336;
+  border: 1px solid #F44336;
 }
 .input-group .input-group-prepend .input-group-text {
-  background: #f44336 !important;
+  background: #F44336 !important;
 }
 .input-group .input-group-prepend .input-group-text i {
   color: #fff !important;
@@ -51,7 +51,7 @@
   margin: 0 !important;
 }
 .badge-red {
-  background: #f44336;
+  background: #F44336;
   color: #fff;
   margin-right: 5px;
 }
@@ -63,14 +63,14 @@
   font-weight: 400;
 }
 .nav-main .logo h1 a {
-  color: #f44336;
+  color: #F44336;
 }
 .nav-main .logo h1 a:hover {
   color: #ea1c0d;
   text-decoration: none;
 }
 .nav-main .letters ul li a {
-  color: #333333;
+  color: #333;
   text-transform: uppercase;
   font-size: 0.75rem;
 }
@@ -79,7 +79,7 @@
   text-decoration: none;
 }
 .nav-main .letters ul li .active {
-  color: #f44336 !important;
+  color: #F44336 !important;
 }
 .nav-main .letters ul li .active:hover {
   color: #ea1c0d !important;
@@ -93,18 +93,21 @@
   padding-bottom: 20px;
 }
 .options-left ul li a {
-  color: #333333;
+  color: #333;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.875rem;
-  transition-duration: .25s;
+  transition-duration: 0.25s;
   letter-spacing: 1px;
 }
 .options-left ul li a i {
-  padding: 10px;
+  line-height: 40px;
+  text-align: center;
+  width: 40px;
+  height: 40px;
   margin-left: 10px;
-  background: #f44336;
+  background: #F44336;
   color: #fff;
 }
 .options-left ul li a:hover {
@@ -112,18 +115,18 @@
   text-decoration: none;
 }
 .content h1 {
-  color: #f44336;
+  color: #F44336;
   padding-bottom: 20px;
 }
 .content .icon {
-  color: #f44336;
+  color: #F44336;
   font-size: 40px;
   padding-bottom: 20px;
   width: 100%;
   text-align: center;
 }
 .content h3 {
-  color: #333333;
+  color: #333;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
@@ -132,17 +135,17 @@
   text-align: center;
 }
 .content p {
-  color: #333333;
+  color: #333;
 }
 .content .example {
   margin-top: 20px;
-  border-left: 3px solid #f44336;
+  border-left: 3px solid #F44336;
   padding-left: 20px;
   font-style: italic;
 }
 .content a {
-  color: #f44336;
-  transition-duration: .25s;
+  color: #F44336;
+  transition-duration: 0.25s;
 }
 .content a:hover {
   text-decoration: none;
@@ -169,8 +172,8 @@
   padding-top: 50px;
 }
 .active .page-link {
-  background: #f44336 !important;
-  border-color: #f44336 !important;
+  background: #F44336 !important;
+  border-color: #F44336 !important;
 }
 .first {
   color: #FFD700;
@@ -205,7 +208,7 @@
   color: #cc0000;
 }
 .black-link {
-  color: #333333;
+  color: #333;
 }
 .black-link:hover {
   text-decoration: none;

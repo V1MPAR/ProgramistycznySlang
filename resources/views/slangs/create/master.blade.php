@@ -59,16 +59,9 @@
                       <div class="options-left col-12 col-md-3">
                           <div class="my-auto letters">
                               <ul class="list text-right">
-                                @if ( auth()->user() === null )
+                                @if ( auth()->user() !== null )
                                   <li class="list-item">
-                                    <a href="{{ URL::to('/login') }}">
-                                      Zaloguj się
-                                      <i class="fas fa-sign-in-alt"></i>
-                                    </a>
-                                  </li>
-                                @else
-                                  <li class="list-item">
-                                    <a href="{{ URL::to('/user/' . auth()->user()->name) }}">
+                                    <a href="#">
                                       {{ auth()->user()->name }}
                                       <i class="fas fa-user"></i>
                                     </a>
@@ -84,15 +77,21 @@
                                   </li>
                                 @endhasrole
                                   <li class="list-item">
-                                      <a href="{{ URL::to('/slang/create') }}">
-                                          Dodaj slang
-                                          <i class="fas fa-plus"></i>
+                                      <a href="{{ URL::to('/slangs') }}">
+                                          Slangi
+                                          <i class="fas fa-language"></i>
                                       </a>
                                   </li>
                                   <li class="list-item">
-                                      <a href="{{ URL::to('/slang/random') }}">
-                                          Losuj slang
-                                          <i class="fas fa-random"></i>
+                                    <a href="{{ URL::to('/slang/random') }}">
+                                      Losuj slang
+                                      <i class="fas fa-random"></i>
+                                    </a>
+                                  </li>
+                                  <li class="list-item">
+                                      <a href="{{ URL::to('/slang/create') }}">
+                                          Dodaj slang
+                                          <i class="fas fa-plus"></i>
                                       </a>
                                   </li>
                                   <li class="list-item">
@@ -106,6 +105,13 @@
                                       <a href="{{ URL::to('/logout') }}">
                                         Wyloguj się
                                         <i class="fas fa-sign-out-alt"></i>
+                                      </a>
+                                    </li>
+                                  @else
+                                    <li class="list-item">
+                                      <a href="{{ URL::to('/login') }}">
+                                        Zaloguj się
+                                        <i class="fas fa-sign-in-alt"></i>
                                       </a>
                                     </li>
                                   @endif
